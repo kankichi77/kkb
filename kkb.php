@@ -13,6 +13,20 @@ Class Entry {
   public $item = "";
   public $amount = "";
   public $date = "";
+
+  public function init() {
+    $id = "";
+    $item = "";
+    $amount = "";
+    $date = "";
+  }
+
+  public function set($i, $t, $a, $d) {
+    $id = $i;
+    $item = $t;
+    $amount = $a;
+    $date = $d;
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -41,52 +55,105 @@ Class Entry {
   $item = htmlentities($_POST['Item']);
   $amount = htmlentities($_POST['Amount']);
   $date = htmlentities($_POST['Date']);
-  $id = htmlentities($_GET['id']);
+  $id = htmlentities($_POST['id']);
+  $btn = htmlentities($_POST['btn']);
+
   $e = new Entry();
+  //$e->init();
+  $e->id = "";
+  $e->item = "";
+  $e->amount = "";
+  $e->date = "";
 
   if (strlen($mode) < 1) {
     $mode = htmlentities($_GET['m']);
+    if (strlen($mode) < 1) {
+      $mode = 'i';
+    }
   }
-  if ($mode == "i" && (strlen($item) || strlen($amount))) {
-    AddEntry($connection, $item, $amount, $date);
-    $item = "";
-    $amount = "";
-    $date = "";
-  }
-  if ($mode == 'u' && strlen($id)) {
-    $e = getEntry($connection, $id);
-    $item = $e->item;
-    
+  if (strlen($id) < 1) {
+    $id = htmlentities($_GET['id']);
+    if (strlen($id) < 1) {
+      $id = "";
+    }
   }
 
+  if ($mode == "i" && (strlen($item) || strlen($amount))) {
+    AddEntry($connection, $item, $amount, $date);
+    //$e->init();
+    $e->id = "";
+    $e->item = "";
+    $e->amount = "";
+    $e->date = "";
+  }
+  if ($mode == "u" && $btn == "upd") {
+      //$e->set($id, $item, $amount, $date);
+      $e->id = $id;
+      $e->item = $item;
+      $e->amount = $amount;
+      $e->date = $date;
+
+      UpdateEntry($connection, $e);
+      //$e->init();
+      $e->id = "";
+      $e->item = "";
+      $e->amount = "";
+      $e->date = "";
+      $mode = "i";
+  }
+  if ($mode == "u" && $btn == "del") {
+    DeleteEntry($connection, $id);
+    $mode = "i";
+  }
+  if ($mode == "s" && strlen($id)) {
+    $e = getEntry($connection, $id);
+    $mode = "u";
+  }
 ?>
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
+<!-- DEBUG -->
+<!--
+<BR>mode: <?=$mode?>
+<BR>btn: <?=$_POST['btn']?>
 <BR>
-ID: <?=$id?>
+ID: <?=$e->id?>
 <BR>
-Item: <?=$item?>
+
+Item: <?=$e->item?>
 <BR><BR>
+-->
 
 <!-- Input form -->
 <form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
-  <input type="hidden" name="mode" value="i">
+  <input type="hidden" name="mode" value="<?=$mode?>">
+  <input type="hidden" name="id" value="<?=$id?>">
   <div class="form-group">
     <label for="InputItem">Item</label>
-    <input type="text" class="form-control" id="InputItem" placeholder="Enter Item" name="Item" maxlength="250" size="10" value="<?=$item?>"/>
+    <input type="text" class="form-control" id="InputItem" placeholder="Enter Item" name="Item" maxlength="250" size="10" value="<?=$e->item?>"/>
   </div>
   <div class="form-group">
     <label for="InputAmount">Amount</label>
-    <input type="text" class="form-control" id="InputAmount" placeholder="in JPY" name="Amount" maxlength="15" size="10" />
+    <input type="text" class="form-control" id="InputAmount" placeholder="in JPY" name="Amount" maxlength="15" size="10" value="<?=$e->amount?>"/>
   </div>
   <div class="form-group">
     <label for="InputDate">Date</label>
-    <input type="date" class="form-control" id="InputDate" placeholder="YYYY-MM-DD" name="Date">
+    <input type="date" class="form-control" id="InputDate" placeholder="YYYY-MM-DD" name="Date" value="<?=$e->date?>" >
   </div>
-  <button type="submit" class="btn btn-primary">Add Data</button>
+  <?php
+  if ($mode == "i") { ?>
+    <button type="submit" class="btn btn-primary" name="btn" value="add">Add Data</button>
+  <?php
+  }
+  if ($mode == "u") { ?>
+    <button type="submit" class="btn btn-primary" name="btn" value="upd">Update Data</button>
+    <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Data</button>
+  <?php
+  } ?>
 </form>
 
 <!-- Display table data. -->
+<p>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -103,7 +170,7 @@ $result = mysqli_query($connection, "SELECT * FROM kkb_entry ORDER BY id DESC LI
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
-  echo "<th scope=\"row\"><a href=\"?m=u&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
+  echo "<th scope=\"row\"><a href=\"?m=s&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
        "<td>", $query_data[1], "</td>",
        "<td>", $query_data[2], "</td>",
        "<td>", $query_data[3], "</td>";
@@ -112,6 +179,7 @@ while($query_data = mysqli_fetch_row($result)) {
 ?>
 </tbody>
 </table>
+</p>
 
 <!-- Clean up. -->
 <?php
@@ -129,7 +197,7 @@ while($query_data = mysqli_fetch_row($result)) {
 /* Get an entry of the specific ID. */
 
 function getEntry($connection, $id) {
-  $result = mysqli_query($connection, "SELECT * FROM kkb_entry WHERE id = " + $id);
+  $result = mysqli_query($connection, "SELECT * FROM kkb_entry WHERE id = {$id}");
   $e = new Entry();
   while ($query_data = mysqli_fetch_row($result)) {
     $e->id = $query_data[0];
@@ -138,6 +206,30 @@ function getEntry($connection, $id) {
     $e->date = $query_data[3];
   }
   return $e;
+}
+
+/* Delete an entry in the table. */
+
+function DeleteEntry($connection, $id) {
+   $query = "DELETE FROM kkb_entry WHERE id={$id}";
+
+   if(!mysqli_query($connection, $query)) echo("<p>Error deleting entry data.</p>");
+   //echo $query;
+}
+
+/* Update an entry in the table. */
+
+function UpdateEntry($connection, $e) {
+   $n = mysqli_real_escape_string($connection, $e->item);
+   $a = mysqli_real_escape_string($connection, $e->amount);
+   $d = mysqli_real_escape_string($connection, $e->date);
+   $i = $e->id;
+
+   $query = "UPDATE kkb_entry SET item='{$n}', amount={$a}, date='{$d}' WHERE id={$i}";
+   //$query = "UPDATE kkb_entry SET item='{$n}' WHERE id={$i}";
+
+   if(!mysqli_query($connection, $query)) echo("<p>Error updating entry data.</p>");
+   //echo $query;
 }
 
 /* Add an entry to the table. */
