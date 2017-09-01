@@ -1,5 +1,19 @@
 <?php 
 include "../../inc/kkb_dbinfo.inc";
+session_start();
+
+if ($_SESSION['loggedIn'] == 0) {
+  header("Location: http://".$_SERVER['SERVER_NAME']."/kkb/login.php");
+  //echo "Not ogged in ";
+  //echo $_SESSION['loggedIn'];
+  die();
+}
+
+if ($_GET['m'] == 'lo') {
+  $_SESSION['loggedIn'] = 0;
+  header("Location: http://".$_SERVER['SERVER_NAME']."/kkb/login.php");
+  die();
+}
 
 // Init
 $id = "";
@@ -63,7 +77,7 @@ Class Entry {
   $e->id = "";
   $e->item = "";
   $e->amount = "";
-  $e->date = "";
+  $e->date = date('Y-m-d');
 
   if (strlen($mode) < 1) {
     $mode = htmlentities($_GET['m']);
@@ -84,7 +98,7 @@ Class Entry {
     $e->id = "";
     $e->item = "";
     $e->amount = "";
-    $e->date = "";
+    $e->date = date('Y-m-d');
   }
   if ($mode == "u" && $btn == "upd") {
       //$e->set($id, $item, $amount, $date);
@@ -98,7 +112,7 @@ Class Entry {
       $e->id = "";
       $e->item = "";
       $e->amount = "";
-      $e->date = "";
+      $e->date = date('Y-m-d');
       $mode = "i";
   }
   if ($mode == "u" && $btn == "del") {
@@ -128,6 +142,7 @@ Item: <?=$e->item?>
 <form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
   <input type="hidden" name="mode" value="<?=$mode?>">
   <input type="hidden" name="id" value="<?=$id?>">
+  <input type="hidden" name="uid" value="<?=$_SESSION['uid']?>">
   <div class="form-group">
     <label for="InputItem">Item</label>
     <input type="text" class="form-control" id="InputItem" placeholder="Enter Item" name="Item" maxlength="250" size="10" value="<?=$e->item?>"/>
@@ -160,21 +175,35 @@ Item: <?=$e->item?>
     <th>ID</th>
     <th>Item</th>
     <th>Amount</th>
-    <th>Date </th>
+    <th>Date</th>
+    <th>Category</th>
+    <th>Method</th>
+    <th>Other Party</th>
+    <th>Created By</th>
+    <th>Created On</th>
+    <th>Last Updated By</th>
+    <th>Last Updated On</th>
   </tr>
   </thead>
   <tbody>
 <?php
 
-$result = mysqli_query($connection, "SELECT * FROM kkb_entry ORDER BY id DESC LIMIT 10"); 
+$result = mysqli_query($connection, "SELECT kkb_entry.*, u1.username FROM kkb_entry, users u1 WHERE kkb_entry.created_by = u1.id ORDER BY id DESC LIMIT 10"); 
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
   echo "<th scope=\"row\"><a href=\"?m=s&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
        "<td>", $query_data[1], "</td>",
+       "<td>", $query_data[3], "</td>",
+       "<td>", $query_data[4], "</td>",
        "<td>", $query_data[2], "</td>",
-       "<td>", $query_data[3], "</td>";
-  echo "</tr>";
+       "<td>", $query_data[10], "</td>",  // Method
+       "<td>", $query_data[7], "</td>",  // Other Party
+       "<td>", $query_data[11], "</td>", // Created By (Username)
+       "<td>", $query_data[6], "</td>",
+       "<td>", $query_data[9], "</td>", // Last Updated By
+       "<td>", $query_data[8], "</td>", // Last Update On
+       "</tr>";
 }
 ?>
 </tbody>
@@ -189,6 +218,7 @@ while($query_data = mysqli_fetch_row($result)) {
 
 ?>
 
+<a href="<?=$_SERVER['SCRIPT_NAME']?>?m=lo">Log out</a>
 </body>
 </html>
 
@@ -239,9 +269,16 @@ function AddEntry($connection, $item, $amount, $date) {
    $a = mysqli_real_escape_string($connection, $amount);
    $d = mysqli_real_escape_string($connection, $date);
 
-   $query = "INSERT INTO `kkb_entry` (`Item`, `Amount`, `date`) VALUES ('$n', '$a', '$d');";
+   $query = "INSERT INTO `kkb_entry` (";
+   $query .= "`Item`, `Amount`, `date`, ";
+   $query .= "`created_by`, created_date, `lastUpdated_by`, lastUpdated_date";
+   $query .= ") VALUES (";
+   $query .= "'$n', '$a', '$d', '";
+   $query .= $_SESSION['uid'] . "', '" . date('Y-m-d G:i:s') . "', '";
+   $query .= $_SESSION['uid'] . "', '20170901');";
 
    if(!mysqli_query($connection, $query)) echo("<p>Error adding entry data.</p>");
+   //echo $query;
 }
 
 /* Check whether the table exists and, if not, create it. */
