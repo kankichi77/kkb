@@ -1,5 +1,7 @@
 <?php 
 // COMMENTS
+
+// DB SETTINGS
 include "../../inc/kkb_dbinfo.inc";
 session_start();
 
