@@ -9,8 +9,6 @@ date_default_timezone_set('Asia/Tokyo');
 
 if ($_SESSION['loggedIn'] == 0) {
   header("Location: http://".$_SERVER['SERVER_NAME']."/kkb/login.php");
-  //echo "Not ogged in ";
-  //echo $_SESSION['loggedIn'];
   die();
 }
 
