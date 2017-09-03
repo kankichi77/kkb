@@ -1,4 +1,5 @@
 <?php 
+// COMMENTS
 include "../../inc/kkb_dbinfo.inc";
 session_start();
 
