@@ -54,7 +54,7 @@ if ($_SESSION['loggedIn'] == 1) {
   <script src="jquery-3.2.1.js"></script>
 </head>
 <body>
-<h1>KKB</h1>
+<h1>KKB Login</h1>
 <!-- DEBUG -->
 <!--
 <?=$_SESSION['loggedIn']?><BR>
