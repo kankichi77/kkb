@@ -247,7 +247,7 @@ $query = "SELECT category, sum(amount) total FROM kkb_entry WHERE date > '";
 $query .= $d_month_start->format('Y-m-d');
 $query .= "' AND date < '";
 $query .= $d_month_end->format('Y-m-d');
-$query .= "' GROUP BY category ORDER BY total";
+$query .= "' GROUP BY category ORDER BY total DESC";
 $result = mysqli_query($connection, $query);
 $total = 0;
 
