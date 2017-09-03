@@ -1,10 +1,11 @@
-<?php 
+<?php
 // COMMENTS
 
 // DB SETTINGS
 include "../../inc/kkb_dbinfo.inc";
 session_start();
 
+// SET Default time zone
 date_default_timezone_set('Asia/Tokyo');
 
 if ($_SESSION['loggedIn'] == 0) {
@@ -72,7 +73,7 @@ Class Entry {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" 
+  <link rel="stylesheet"
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
   <title>KKB</title>
   <script src="jquery-3.2.1.js"></script>
@@ -81,10 +82,10 @@ Class Entry {
   <script type="text/javascript">
 $(document).ready( function() {
 $( "#InputCategory" ).autocomplete({
-		source: [ 
-			'HPI', 'Kyosho', 'Losi', 
-			'Tamiya', 'Team Associated', 
-			'Team Durango', 'Traxxas', 'Yokomo' 
+		source: [
+			'HPI', 'Kyosho', 'Losi',
+			'Tamiya', 'Team Associated',
+			'Team Durango', 'Traxxas', 'Yokomo'
 		]
 	}
 );
@@ -99,7 +100,7 @@ $( "#InputCategory" ).autocomplete({
   $database = mysqli_select_db($connection, DB_DATABASE);
 
   /* Ensure that the KKB_Entry table exists. */
-  VerifyTable($connection, "kkb_entry", DB_DATABASE); 
+  VerifyTable($connection, "kkb_entry", DB_DATABASE);
 
   /* If input fields are populated, add a row to the Employees table. */
   $mode = htmlentities($_POST['mode']);
@@ -247,7 +248,7 @@ $query .= $d_month_start->format('Y-m-d');
 $query .= "' AND date < '";
 $query .= $d_month_end->format('Y-m-d');
 $query .= "' GROUP BY method ORDER BY method";
-$result = mysqli_query($connection, $query); 
+$result = mysqli_query($connection, $query);
 $total = 0;
 
 while($query_data = mysqli_fetch_row($result)) {
@@ -278,7 +279,7 @@ echo "Total: " . number_format($total);
   <tbody>
 <?php
 
-$result = mysqli_query($connection, "SELECT * FROM kkb_entry ORDER BY id DESC LIMIT 10"); 
+$result = mysqli_query($connection, "SELECT * FROM kkb_entry ORDER BY id DESC LIMIT 10");
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
@@ -372,8 +373,8 @@ function AddEntry($connection, $e) {
 /* Check whether the table exists and, if not, create it. */
 function VerifyTable($connection, $tableName, $dbName) {
 /*
-  if(!TableExists($tableName, $connection, $dbName)) 
-  { 
+  if(!TableExists($tableName, $connection, $dbName))
+  {
      $query = "CREATE TABLE `KKB_Entry` (
          `ID` int NOT NULL AUTO_INCREMENT primary key,
          `Item` varchar(255) DEFAULT NULL,
@@ -391,7 +392,7 @@ function TableExists($tableName, $connection, $dbName) {
   $t = mysqli_real_escape_string($connection, $tableName);
   $d = mysqli_real_escape_string($connection, $dbName);
 
-  $checktable = mysqli_query($connection, 
+  $checktable = mysqli_query($connection,
       "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_NAME = '$t' AND TABLE_SCHEMA = '$d'");
 
   if(mysqli_num_rows($checktable) > 0) return true;
