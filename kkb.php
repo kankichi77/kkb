@@ -345,7 +345,11 @@ function UpdateEntry($connection, $e) {
    $o = mysqli_real_escape_string($connection, $e->op);
    $i = $e->id;
 
-   $query = "UPDATE kkb_entry SET item='{$n}', amount={$a}, date='{$d}', category='{$c}', method='{$m}', otherParty='{$o}' WHERE id={$i}";
+   $query = "UPDATE kkb_entry SET ";
+   $query .= "item='{$n}', amount={$a}, date='{$d}', category='{$c}', method='{$m}', ";
+   $query .= "otherParty='{$o}', lastUpdated_by='{$_SESSION['uid']}', ";
+   $query .= "lastUpdated_date='" . date('Y-m-d G:i:s') . "' ";
+   $query .= "WHERE id={$i}";
 
    if(!mysqli_query($connection, $query)) echo("<p>Error updating entry data.</p>");
 }
@@ -365,7 +369,7 @@ function AddEntry($connection, $e) {
    $query .= ") VALUES (";
    $query .= "'$n', '$a', '$d', '$c', '$m', '$o', '";
    $query .= $_SESSION['uid'] . "', '" . date('Y-m-d G:i:s') . "', '";
-   $query .= $_SESSION['uid'] . "', '20170901');";
+   $query .= $_SESSION['uid'] . "', '" . date('Y-m-d G:i:s') . "'');";
 
    if(!mysqli_query($connection, $query)) echo("<p>Error adding entry data.</p>");
 }
