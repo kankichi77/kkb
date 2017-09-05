@@ -372,6 +372,7 @@ function AddEntry($connection, $e) {
    $query .= $_SESSION['uid'] . "', '" . date('Y-m-d G:i:s') . "'');";
 
    if(!mysqli_query($connection, $query)) echo("<p>Error adding entry data.</p>");
+   echo $query;
 }
 
 /* Check whether the table exists and, if not, create it. */
