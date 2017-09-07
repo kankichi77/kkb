@@ -214,16 +214,16 @@ $( "#InputCategory" ).autocomplete({
     <input type="text" class="form-control" id="InputAmount" placeholder="in JPY" name="Amount" maxlength="15" size="10" value="<?=$e->amount?>"/>
   </div>
   <div class="form-group">
-    <label for="InputDate">Date</label>
-    <input type="date" class="form-control" id="InputDate" placeholder="YYYY-MM-DD" name="Date" value="<?=$e->date?>" >
-  </div>
-  <div class="form-group">
     <label for="InputMethod">Method</label>
     <input type="text" class="form-control" id="InputMethod" placeholder="Enter Method" name="Method" value="<?=$e->method?>" >
   </div>
   <div class="form-group">
     <label for="InputOtherParty">Other Party / 相手先</label>
     <input type="text" class="form-control" id="InputOtherParty" placeholder="Enter Other Party" name="OtherParty" value="<?=$e->op?>" >
+  </div>
+  <div class="form-group">
+    <label for="InputDate">Date</label>
+    <input type="date" class="form-control" id="InputDate" placeholder="YYYY-MM-DD" name="Date" value="<?=$e->date?>" >
   </div>
   <?php
   if ($mode == "i") { ?>
