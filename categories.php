@@ -20,7 +20,6 @@ if ($_GET['m'] == 'lo') {
 }
 
 // Init
-/*
 $id = "";
 $item = "";
 $amount = "";
@@ -38,7 +37,12 @@ try {
     echo $er->getMessage();
     exit(1);
 }
-*/
+
+Class Category {
+  public $id = "";
+  public $groupName = "";
+  public $category = "";
+}
 ?>
 <!DOCTYPE html>
 <html lang="jp">
@@ -65,24 +69,14 @@ try {
 
   /* If input fields are populated, add a row to the Employees table. */
   $mode = htmlentities($_POST['mode']);
-  $item = htmlentities($_POST['Item']);
-  $amount = htmlentities($_POST['Amount']);
-  $date = htmlentities($_POST['Date']);
-  $id = htmlentities($_POST['id']);
-  $btn = htmlentities($_POST['btn']);
+  $groupName = htmlentities($_POST['GroupName']);
   $category = htmlentities($_POST['Category']);
-  $method = htmlentities($_POST['Method']);
-  $op = htmlentities($_POST['OtherParty']);
 
-  $e = new Entry();
+  $c = new Category();
   //$e->init();
-  $e->id = "";
-  $e->item = "";
-  $e->amount = "";
-  $e->date = date('Y-m-d');
-  $e->category = "";
-  $e->method = "";
-  $e->op = "";
+  $c->id = "";
+  $c->groupName = "";
+  $c->category = "";
 
   if (strlen($mode) < 1) {
     $mode = htmlentities($_GET['m']);
@@ -98,45 +92,29 @@ try {
   }
 
   if ($mode == "i") {
-    if ( strlen($item) && strlen($amount)) {
-      $e->id = $id;
-      $e->item = $item;
-      $e->amount = $amount;
-      $e->date = $date;
-      $e->category = $category;
-      $e->method = $method;
-      $e->op = $op;
+    if ( strlen($groupName) && strlen($category)) {
+      $c->id = $id;
+      $c->groupName = $groupName;
+      $c->category = $category;
 
-      AddEntry($connection, $e);
+      AddEntry($connection, $c);
       //$e->init();
-      $e->id = "";
-      $e->item = "";
-      $e->amount = "";
-      $e->date = date('Y-m-d');
-      $e->category = "";
-      $e->method = "";
-      $e->op = "";
+      $c->id = "";
+      $c->groupName = "";
+      $c->category = "";
     }
   }
   if ($mode == "u" && $btn == "upd") {
       //$e->set($id, $item, $amount, $date);
-      $e->id = $id;
-      $e->item = $item;
-      $e->amount = $amount;
-      $e->date = $date;
-      $e->category = $category;
-      $e->method = $method;
-      $e->op = $op;
+      $c->id = $id;
+      $c->groupName = $groupName;
+      $c->category = $category;
 
-      UpdateEntry($connection, $e);
+      UpdateEntry($connection, $c);
       //$e->init();
-      $e->id = "";
-      $e->item = "";
-      $e->amount = "";
-      $e->date = date('Y-m-d');
-      $e->category = "";
-      $e->method = "";
-      $e->op = "";
+      $c->id = "";
+      $c->groupName = "";
+      $c->category = "";
       $mode = "i";
   }
   if ($mode == "u" && $btn == "del") {
@@ -144,7 +122,7 @@ try {
     $mode = "i";
   }
   if ($mode == "s" && strlen($id)) {
-    $e = getEntry($connection, $id);
+    $c = getEntry($connection, $id);
     $mode = "u";
   }
 ?>
@@ -153,8 +131,6 @@ try {
 <!-- DEBUG -->
 <!--
 <?=$d_today->format('Y-m-d')?><BR>
-<?=$d_month_start->format('Y-m-d')?><BR>
-<?=$d_month_end->format('Y-m-d')?>
 -->
 
 <!-- Input form -->
@@ -163,28 +139,12 @@ try {
   <input type="hidden" name="id" value="<?=$id?>">
   <input type="hidden" name="uid" value="<?=$_SESSION['uid']?>">
   <div class="form-group">
+    <label for="InputCategory">Group Name</label>
+    <input type="text" class="form-control" id="InputGroupName" placeholder="Enter Group Name" name="GroupName"  value="<?=$c->groupName?>">
+  </div>
+  <div class="form-group">
     <label for="InputCategory">Category</label>
-    <input type="text" class="form-control" id="InputCategory" placeholder="Enter Category" name="Category"  value="<?=$e->category?>">
-  </div>
-  <div class="form-group">
-    <label for="InputItem">Item</label>
-    <input type="text" class="form-control" id="InputItem" placeholder="Enter Item" name="Item" maxlength="250" size="10" value="<?=$e->item?>"/>
-  </div>
-  <div class="form-group">
-    <label for="InputAmount">Amount</label>
-    <input type="text" class="form-control" id="InputAmount" placeholder="in JPY" name="Amount" maxlength="15" size="10" value="<?=$e->amount?>"/>
-  </div>
-  <div class="form-group">
-    <label for="InputMethod">Method</label>
-    <input type="text" class="form-control" id="InputMethod" placeholder="Enter Method" name="Method" value="<?=$e->method?>" >
-  </div>
-  <div class="form-group">
-    <label for="InputOtherParty">Other Party / 相手先</label>
-    <input type="text" class="form-control" id="InputOtherParty" placeholder="Enter Other Party" name="OtherParty" value="<?=$e->op?>" >
-  </div>
-  <div class="form-group">
-    <label for="InputDate">Date</label>
-    <input type="date" class="form-control" id="InputDate" placeholder="YYYY-MM-DD" name="Date" value="<?=$e->date?>" >
+    <input type="text" class="form-control" id="InputCategory" placeholder="Enter Category" name="Category"  value="<?=$c->category?>">
   </div>
   <?php
   if ($mode == "i") { ?>
@@ -198,30 +158,11 @@ try {
   } ?>
 </form>
 <!-- End Form -->
-
+<BR>
+<p><a href="kkb.php">New Entry</a></p>
+<BR>
 <p><a href="view.php">More Entries</a></p>
-
-<!-- Quick Stats -->
-<p><u><?=date('Y')?>年<?=date('n')?>月データ</u></p>
-<?php
-$query = "SELECT category, sum(amount) total FROM kkb_entry WHERE date > '";
-$query .= $d_month_start->format('Y-m-d');
-$query .= "' AND date < '";
-$query .= $d_month_end->format('Y-m-d');
-$query .= "' GROUP BY category ORDER BY total DESC";
-$result = mysqli_query($connection, $query);
-$total = 0;
-
-while($query_data = mysqli_fetch_row($result)) {
-  $total += $query_data[1];
-  if ($query_data[0] == "") $x = "(BLANK)";
-    else $x = $query_data[0];
-  echo $x . ": " . number_format($query_data[1]);
-  echo "<BR>";
-}
-echo "Total: " . number_format($total);
-?>
-<!-- Stats End -->
+<BR>
 
 <!-- Display table data. -->
 <p>
@@ -229,28 +170,20 @@ echo "Total: " . number_format($total);
   <thead>
   <tr>
     <th>ID</th>
-    <th>Item</th>
-    <th>Amount</th>
-    <th>Date</th>
+    <th>Group Name</th>
     <th>Category</th>
-    <th>Method</th>
-    <th>Other Party</th>
   </tr>
   </thead>
   <tbody>
 <?php
 
-$result = mysqli_query($connection, "SELECT * FROM kkb_entry ORDER BY id DESC LIMIT 10");
+$result = mysqli_query($connection, "SELECT * FROM categories ORDER BY id DESC LIMIT 10");
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
   echo "<th scope=\"row\"><a href=\"?m=s&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
        "<td>", $query_data[1], "</td>",
-       "<td>", number_format($query_data[3]), "</td>",
-       "<td>", $query_data[4], "</td>",
        "<td>", $query_data[2], "</td>",
-       "<td>", $query_data[10], "</td>",  // Method
-       "<td>", $query_data[7], "</td>",  // Other Party
        "</tr>";
 }
 ?>
@@ -275,64 +208,48 @@ while($query_data = mysqli_fetch_row($result)) {
 /* Get an entry of the specific ID. */
 
 function getEntry($connection, $id) {
-  $result = mysqli_query($connection, "SELECT * FROM kkb_entry WHERE id = {$id}");
-  $e = new Entry();
+  $result = mysqli_query($connection, "SELECT * FROM categories WHERE id = {$id}");
+  $c = new Category();
   while ($query_data = mysqli_fetch_row($result)) {
-    $e->id = $query_data[0];
-    $e->item = $query_data[1];
-    $e->amount = $query_data[3];
-    $e->date = $query_data[4];
-    $e->category = $query_data[2];
-    $e->method = $query_data[10];
-    $e->op = $query_data[7];
+    $c->id = $query_data[0];
+    $c->groupName = $query_data[1];
+    $c->category = $query_data[2];
   }
-  return $e;
+  return $c;
 }
 
 /* Delete an entry in the table. */
 
 function DeleteEntry($connection, $id) {
-   $query = "DELETE FROM kkb_entry WHERE id={$id}";
-   if(!mysqli_query($connection, $query)) echo("<p>Error deleting entry data.</p>");
+   $query = "DELETE FROM categories WHERE id={$id}";
+   if(!mysqli_query($connection, $query)) echo("<p>Error deleting category data.</p>");
 }
 
 /* Update an entry in the table. */
-function UpdateEntry($connection, $e) {
-   $n = mysqli_real_escape_string($connection, $e->item);
-   $a = mysqli_real_escape_string($connection, $e->amount);
-   $d = mysqli_real_escape_string($connection, $e->date);
-   $c = mysqli_real_escape_string($connection, $e->category);
-   $m = mysqli_real_escape_string($connection, $e->method);
-   $o = mysqli_real_escape_string($connection, $e->op);
-   $i = $e->id;
+function UpdateCategory($connection, $c) {
+   $g = mysqli_real_escape_string($connection, $c->groupName);
+   $a = mysqli_real_escape_string($connection, $c->category);
+   $i = $c->id;
 
-   $query = "UPDATE kkb_entry SET ";
-   $query .= "item='{$n}', amount={$a}, date='{$d}', category='{$c}', method='{$m}', ";
-   $query .= "otherParty='{$o}', lastUpdated_by='{$_SESSION['uid']}', ";
-   $query .= "lastUpdated_date='" . date('Y-m-d G:i:s') . "' ";
+   $query = "UPDATE categories SET ";
+   $query .= "groupName='{$g}', category='{$a}' ";
    $query .= "WHERE id={$i}";
 
-   if(!mysqli_query($connection, $query)) echo("<p>Error updating entry data.</p>");
+   if(!mysqli_query($connection, $query)) echo("<p>Error updating category data.</p>");
 }
 
 /* Add an entry to the table. */
-function AddEntry($connection, $e) {
-   $n = mysqli_real_escape_string($connection, $e->item);
-   $a = mysqli_real_escape_string($connection, $e->amount);
-   $d = mysqli_real_escape_string($connection, $e->date);
-   $c = mysqli_real_escape_string($connection, $e->category);
-   $m = mysqli_real_escape_string($connection, $e->method);
-   $o = mysqli_real_escape_string($connection, $e->op);
+function AddEntry($connection, $c) {
+   $g = mysqli_real_escape_string($connection, $c->groupName);
+   $a = mysqli_real_escape_string($connection, $c->category);
 
-   $query = "INSERT INTO `kkb_entry` (";
-   $query .= "`Item`, `Amount`, `date`, `category`, `method`, `otherParty`, ";
-   $query .= "`created_by`, created_date, `lastUpdated_by`, lastUpdated_date";
+   $query = "INSERT INTO `categories` (";
+   $query .= "`groupName`, `category` ";
    $query .= ") VALUES (";
-   $query .= "'$n', '$a', '$d', '$c', '$m', '$o', '";
-   $query .= $_SESSION['uid'] . "', '" . date('Y-m-d G:i:s') . "', '";
-   $query .= $_SESSION['uid'] . "', '" . date('Y-m-d G:i:s') . "');";
+   $query .= "'$g', '$a' '";
+   $query .= ");";
 
-   if(!mysqli_query($connection, $query)) echo("<p>Error adding entry data.</p>");
+   if(!mysqli_query($connection, $query)) echo("<p>Error adding category data.</p>");
    //echo $query;
 }
 
