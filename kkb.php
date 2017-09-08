@@ -274,6 +274,7 @@ echo "Total: " . number_format($total);
     <th>Amount</th>
     <th>Date</th>
     <th>Category</th>
+    <th>Group</th>
     <th>Method</th>
     <th>Other Party</th>
   </tr>
@@ -281,15 +282,19 @@ echo "Total: " . number_format($total);
   <tbody>
 <?php
 
-$result = mysqli_query($connection, "SELECT * FROM kkb_entry ORDER BY id DESC LIMIT 10");
+$query = "SELECT k.*, c.groupname FROM kkb_entry k, categories c ";
+$query .= "WHERE k.category = c.category ";
+$query .= "ORDER BY id DESC LIMIT 10";
+$result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
   echo "<th scope=\"row\"><a href=\"?m=s&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
        "<td>", $query_data[1], "</td>",
        "<td>", number_format($query_data[3]), "</td>",
-       "<td>", $query_data[4], "</td>",
-       "<td>", $query_data[2], "</td>",
+       "<td>", $query_data[4], "</td>",  // Date
+       "<td>", $query_data[2], "</td>",  // Category
+       "<td>", $query_data[11], "</td>",  // Group Name
        "<td>", $query_data[10], "</td>",  // Method
        "<td>", $query_data[7], "</td>",  // Other Party
        "</tr>";
