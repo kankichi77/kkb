@@ -71,6 +71,8 @@ Class Category {
   $mode = htmlentities($_POST['mode']);
   $groupName = htmlentities($_POST['GroupName']);
   $category = htmlentities($_POST['Category']);
+  $id = htmlentities($_POST['id']);
+  $btn = htmlentities($_POST['btn']);
 
   $c = new Category();
   //$e->init();
@@ -97,34 +99,38 @@ Class Category {
       $c->groupName = $groupName;
       $c->category = $category;
 
-      AddEntry($connection, $c);
+      AddCategory($connection, $c);
       //$e->init();
       $c->id = "";
       $c->groupName = "";
       $c->category = "";
     }
   }
+
   if ($mode == "u" && $btn == "upd") {
       //$e->set($id, $item, $amount, $date);
       $c->id = $id;
       $c->groupName = $groupName;
       $c->category = $category;
 
-      UpdateEntry($connection, $c);
+      UpdateCategory($connection, $c);
       //$e->init();
       $c->id = "";
       $c->groupName = "";
       $c->category = "";
       $mode = "i";
   }
+
   if ($mode == "u" && $btn == "del") {
-    DeleteEntry($connection, $id);
+    DeleteCategory($connection, $id);
     $mode = "i";
   }
+
   if ($mode == "s" && strlen($id)) {
-    $c = getEntry($connection, $id);
+    $c = getCategory($connection, $id);
     $mode = "u";
   }
+
 ?>
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
@@ -207,7 +213,7 @@ while($query_data = mysqli_fetch_row($result)) {
 
 /* Get an entry of the specific ID. */
 
-function getEntry($connection, $id) {
+function getCategory($connection, $id) {
   $result = mysqli_query($connection, "SELECT * FROM categories WHERE id = {$id}");
   $c = new Category();
   while ($query_data = mysqli_fetch_row($result)) {
@@ -220,7 +226,7 @@ function getEntry($connection, $id) {
 
 /* Delete an entry in the table. */
 
-function DeleteEntry($connection, $id) {
+function DeleteCategory($connection, $id) {
    $query = "DELETE FROM categories WHERE id={$id}";
    if(!mysqli_query($connection, $query)) echo("<p>Error deleting category data.</p>");
 }
@@ -236,17 +242,18 @@ function UpdateCategory($connection, $c) {
    $query .= "WHERE id={$i}";
 
    if(!mysqli_query($connection, $query)) echo("<p>Error updating category data.</p>");
+   //echo $query;
 }
 
 /* Add an entry to the table. */
-function AddEntry($connection, $c) {
+function AddCategory($connection, $c) {
    $g = mysqli_real_escape_string($connection, $c->groupName);
    $a = mysqli_real_escape_string($connection, $c->category);
 
    $query = "INSERT INTO `categories` (";
    $query .= "`groupName`, `category` ";
    $query .= ") VALUES (";
-   $query .= "'$g', '$a' '";
+   $query .= "'$g', '$a' ";
    $query .= ");";
 
    if(!mysqli_query($connection, $query)) echo("<p>Error adding category data.</p>");
