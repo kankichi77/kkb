@@ -282,9 +282,9 @@ echo "Total: " . number_format($total);
   <tbody>
 <?php
 
-$query = "SELECT k.*, c.groupname FROM kkb_entry k, categories c ";
-$query .= "WHERE k.category = c.category ";
-$query .= "ORDER BY id DESC LIMIT 10";
+$query = "SELECT * FROM kkb_entry LEFT JOIN categories  ";
+$query .= "ON kkb_entry.category = categories.category ";
+$query .= "ORDER BY kkb_entry.id DESC LIMIT 10";
 $result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
