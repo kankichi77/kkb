@@ -294,7 +294,7 @@ while($query_data = mysqli_fetch_row($result)) {
        "<td>", number_format($query_data[3]), "</td>",
        "<td>", $query_data[4], "</td>",  // Date
        "<td>", $query_data[2], "</td>",  // Category
-       "<td>", $query_data[11], "</td>",  // Group Name
+       "<td>", $query_data[12], "</td>",  // Group Name
        "<td>", $query_data[10], "</td>",  // Method
        "<td>", $query_data[7], "</td>",  // Other Party
        "</tr>";
