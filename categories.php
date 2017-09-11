@@ -57,7 +57,7 @@ Class Category {
   <script src="jquery-ui.min.js"></script>
 </head>
 <body>
-<h1>KKB Categories</h1>
+<a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB Categories</h1></a>
 <?php
   /* Connect to MySQL and select the database. */
   $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
@@ -132,8 +132,6 @@ Class Category {
   }
 
 ?>
-
-<a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
 <!-- DEBUG -->
 <!--
 <?=$d_today->format('Y-m-d')?><BR>

@@ -26,7 +26,7 @@ if ($_GET['m'] == 'lo') {
   <script src="jquery-ui.min.js"></script>
 </head>
 <body>
-<h1>KKB View</h1>
+<a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB View</h1></a>
 <?php
   /* Connect to MySQL and select the database. */
   $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
@@ -36,7 +36,6 @@ if ($_GET['m'] == 'lo') {
   /* Ensure that the KKB_Entry table exists. */
   VerifyTable($connection, "kkb_entry", DB_DATABASE);
 ?>
-<a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
 <p><a href="kkb.php">Create New</a></p>
 <p><a href="categories.php">Categories</a></p>
 <!-- DEBUG -->

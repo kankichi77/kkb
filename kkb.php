@@ -92,7 +92,7 @@ $( "#InputCategory" ).autocomplete({
 </script>
 </head>
 <body>
-<h1>KKB</h1>
+<a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB</h1></a>
 <?php
   /* Connect to MySQL and select the database. */
   $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
@@ -187,8 +187,6 @@ $( "#InputCategory" ).autocomplete({
     $mode = "u";
   }
 ?>
-
-<a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
 <!-- DEBUG -->
 <!--
 <?=$d_today->format('Y-m-d')?><BR>
@@ -237,11 +235,9 @@ $( "#InputCategory" ).autocomplete({
   } ?>
 </form>
 <!-- End Form -->
-<BR>
 <p><a href="view.php">More Entries</a></p>
-<BR>
 <p><a href="categories.php">Categories</a></p>
-<BR>
+
 <!-- Quick Stats -->
 <p><u><?=date('Y')?>年<?=date('n')?>月データ</u></p>
 <?php
