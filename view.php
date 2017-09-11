@@ -56,6 +56,7 @@ ID: <?=$e->id?>
     <th>Amount</th>
     <th>Date</th>
     <th>Category</th>
+    <th>Group</th>
     <th>Method</th>
     <th>Other Party</th>
     <th>Created By</th>
