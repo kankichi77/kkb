@@ -162,11 +162,8 @@ Class Category {
   } ?>
 </form>
 <!-- End Form -->
-<BR>
-<p><a href="kkb.php">New Entry</a></p>
-<BR>
-<p><a href="view.php">More Entries</a></p>
-<BR>
+<a href="kkb.php" class="btn btn-outline-secondary btn-sm" role="button">New Entry</a>
+<a href="view.php" class="btn btn-outline-secondary btn-sm" role="button">More Entries</a>
 
 <!-- Display table data. -->
 <p>

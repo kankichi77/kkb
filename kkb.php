@@ -235,8 +235,8 @@ $( "#InputCategory" ).autocomplete({
   } ?>
 </form>
 <!-- End Form -->
-<p><a href="view.php">More Entries</a></p>
-<p><a href="categories.php">Categories</a></p>
+<a href="view.php" class="btn btn-outline-secondary btn-sm" role="button">More Entries</a>
+<a href="categories.php" class="btn btn-outline-secondary btn-sm" role="button">Categories</a>
 
 <!-- Quick Stats -->
 <p><u><?=date('Y')?>年<?=date('n')?>月データ</u></p>
