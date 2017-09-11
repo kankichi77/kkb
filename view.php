@@ -36,8 +36,8 @@ if ($_GET['m'] == 'lo') {
   /* Ensure that the KKB_Entry table exists. */
   VerifyTable($connection, "kkb_entry", DB_DATABASE);
 ?>
-<p><a href="kkb.php">Create New</a></p>
-<p><a href="categories.php">Categories</a></p>
+<a href="kkb.php" class="btn btn-secondary" role="button">Create New</a>
+<a href="categories.php" class="btn btn-secondary" role="button">Categories</a>
 <!-- DEBUG -->
 <!--
 ID: <?=$e->id?>
