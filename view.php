@@ -72,7 +72,7 @@ $query = "SELECT k.*, u1.username, u2.username, c.groupname FROM kkb_entry k ";
 $query .= "LEFT JOIN categories c ON k.category = c.category ";
 $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
-$query .= "ORDER BY kkb_entry.id";
+$query .= "ORDER BY k.id";
 $result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
