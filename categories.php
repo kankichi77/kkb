@@ -160,10 +160,10 @@ Class Category {
     <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Data</button>
   <?php
   } ?>
-</form>
 <!-- End Form -->
-<a href="kkb.php" class="btn btn-outline-secondary btn-sm" role="button">New Entry</a>
-<a href="view.php" class="btn btn-outline-secondary btn-sm" role="button">More Entries</a>
+<a href="kkb.php" class="btn btn-outline-secondary" role="button">New Entry</a>
+<a href="view.php" class="btn btn-outline-secondary" role="button">More Entries</a>
+</form>
 
 <!-- Display table data. -->
 <p>

@@ -233,10 +233,10 @@ $( "#InputCategory" ).autocomplete({
     <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Data</button>
   <?php
   } ?>
-</form>
 <!-- End Form -->
-<a href="view.php" class="btn btn-outline-secondary btn-sm" role="button">More Entries</a>
-<a href="categories.php" class="btn btn-outline-secondary btn-sm" role="button">Categories</a>
+<a href="view.php" class="btn btn-outline-secondary" role="button">More Entries</a>
+<a href="categories.php" class="btn btn-outline-secondary" role="button">Categories</a>
+</form>
 
 <!-- Quick Stats -->
 <p><u><?=date('Y')?>年<?=date('n')?>月データ</u></p>
