@@ -183,7 +183,7 @@ Class Category {
   <tbody>
 <?php
 
-$result = mysqli_query($connection, "SELECT * FROM categories ORDER BY id DESC");
+$result = mysqli_query($connection, "SELECT * FROM categories ORDER BY groupname ");
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
