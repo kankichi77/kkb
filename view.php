@@ -39,7 +39,9 @@ if ($_GET['m'] == 'lo') {
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
 <BR>
-<a href="kkb.php">Create New</a>
+<p><a href="kkb.php">Create New</a></p>
+<BR>
+  <p><a href="categories.php">Categories</a></p>
 <!-- DEBUG -->
 <!--
 ID: <?=$e->id?>
