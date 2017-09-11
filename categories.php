@@ -183,7 +183,7 @@ Class Category {
   <tbody>
 <?php
 
-$result = mysqli_query($connection, "SELECT * FROM categories ORDER BY id DESC LIMIT 10");
+$result = mysqli_query($connection, "SELECT * FROM categories ORDER BY id DESC");
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";

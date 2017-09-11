@@ -36,16 +36,12 @@ if ($_GET['m'] == 'lo') {
   /* Ensure that the KKB_Entry table exists. */
   VerifyTable($connection, "kkb_entry", DB_DATABASE);
 ?>
-
 <a href="<?=$_SERVER['SCRIPT_NAME']?>">Reload</a>
-<BR>
 <p><a href="kkb.php">Create New</a></p>
-<BR>
-  <p><a href="categories.php">Categories</a></p>
+<p><a href="categories.php">Categories</a></p>
 <!-- DEBUG -->
 <!--
 ID: <?=$e->id?>
-<BR>
 -->
 
 <!-- Display table data. -->
