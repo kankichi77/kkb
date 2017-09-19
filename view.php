@@ -55,7 +55,7 @@ ID: <?=$e->id?>
 
 <!-- Display table data. -->
 <p>
-  <?=$groupName_key?>
+  Search for Group = "<?=$groupName_key?>"
 <table class="table table-striped">
   <thead>
   <tr>
@@ -80,7 +80,8 @@ $query = "SELECT k.*, u1.username, u2.username, c.groupname FROM kkb_entry k ";
 $query .= "LEFT JOIN categories c ON k.category = c.category ";
 $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
-$query .= "ORDER BY k.id";
+$query .= "WHERE c.groupname = '". $groupName_key . "' ";
+$query .= "ORDER BY k.id DESC";
 $result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
