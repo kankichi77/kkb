@@ -1,7 +1,6 @@
 <?php
 // INCLUDE FILES
 include "../../inc/kkb_dbinfo.inc";  // DB SETTINGS
-include "proc.php";  // Processing functions
 
 session_start();
 
