@@ -279,6 +279,7 @@ Total: <?=number_format($total)?>
 <!-- Stats End -->
 
 <!-- Display table data. -->
+<!--
 <p>
 <table class="table table-striped">
   <thead>
@@ -299,7 +300,7 @@ Total: <?=number_format($total)?>
 $query = "SELECT * FROM kkb_entry LEFT JOIN categories  ";
 $query .= "ON kkb_entry.category = categories.category ";
 $query .= "ORDER BY kkb_entry.id DESC LIMIT 1";
-$result = mysqli_query($connection, $query);
+//$result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
@@ -317,7 +318,7 @@ while($query_data = mysqli_fetch_row($result)) {
 </tbody>
 </table>
 </p>
-
+-->
 <!-- Clean up. -->
 <?php
 
