@@ -92,6 +92,9 @@ $query .= "LEFT JOIN categories c ON k.category = c.category ";
 $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
 if ($mode == "search") {
+  if ($groupName_key == "") {
+    $groupName_key = "NULL";
+  }
   $query .= "WHERE c.groupname = '". $groupName_key . "' ";
 }
 $query .= "ORDER BY k.id DESC";
