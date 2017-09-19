@@ -91,7 +91,7 @@ $query = "SELECT k.*, u1.username, u2.username, c.groupname FROM kkb_entry k ";
 $query .= "LEFT JOIN categories c ON k.category = c.category ";
 $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
-if ($mode = "search") {
+if ($mode == "search") {
   $query .= "WHERE c.groupname = '". $groupName_key . "' ";
 }
 $query .= "ORDER BY k.id DESC";
