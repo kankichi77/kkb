@@ -104,7 +104,7 @@ $result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
-  echo "<th scope=\"row\"><a href=\"kkb.php?m=s&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
+  echo "<th scope=\"row\"><a href=\"index.php?m=s&id=", $query_data[0], "\">", $query_data[0], "</a></th>",
        "<td>", $query_data[1], "</td>",
        "<td>", $query_data[3], "</td>",
        "<td>", $query_data[4], "</td>",  // Date
