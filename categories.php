@@ -152,16 +152,16 @@ Class Category {
   </div>
   <?php
   if ($mode == "i") { ?>
-    <button type="submit" class="btn btn-primary" name="btn" value="add">Add Data</button>
+    <button type="submit" class="btn btn-primary" name="btn" value="add">Add Category</button>
   <?php
   }
   if ($mode == "u") { ?>
-    <button type="submit" class="btn btn-primary" name="btn" value="upd">Update Data</button>
-    <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Data</button>
+    <button type="submit" class="btn btn-primary" name="btn" value="upd">Update Category</button>
+    <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Category</button>
   <?php
   } ?>
 <!-- End Form -->
-<a href="kkb.php" class="btn btn-outline-secondary" role="button">New Entry</a>
+<a href="index.php" class="btn btn-outline-secondary" role="button">New Entry</a>
 <a href="view.php" class="btn btn-outline-secondary" role="button">More Entries</a>
 </form>
 

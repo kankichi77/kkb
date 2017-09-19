@@ -1,6 +1,12 @@
 <?php
-include "../../inc/kkb_dbinfo.inc";
+// INCLUDE FILES
+include "../../inc/kkb_dbinfo.inc";  // DB SETTINGS
+include "proc.php";  // Processing functions
+
 session_start();
+
+// SET Default time zone
+date_default_timezone_set('Asia/Tokyo');
 
 if ($_SESSION['loggedIn'] == 0) {
   header("Location: http://".$_SERVER['SERVER_NAME']."/kkb/login.php");
@@ -12,6 +18,11 @@ if ($_GET['m'] == 'lo') {
   header("Location: http://".$_SERVER['SERVER_NAME']."/kkb/login.php");
   die();
 }
+
+// Init
+$groupName_key = "";
+
+$groupName_key = htmlentities($_GET['k']);
 ?>
 <!DOCTYPE html>
 <html lang="jp">
@@ -36,7 +47,7 @@ if ($_GET['m'] == 'lo') {
   /* Ensure that the KKB_Entry table exists. */
   VerifyTable($connection, "kkb_entry", DB_DATABASE);
 ?>
-<a href="kkb.php" class="btn btn-outline-secondary btn-sm" role="button">Create New</a>
+<a href="index.php" class="btn btn-outline-secondary btn-sm" role="button">Create New</a>
 <a href="categories.php" class="btn btn-outline-secondary btn-sm" role="button">Categories</a>
 <!-- DEBUG -->
 <!--
@@ -45,6 +56,7 @@ ID: <?=$e->id?>
 
 <!-- Display table data. -->
 <p>
+  <?=$groupName_key?>
 <table class="table table-striped">
   <thead>
   <tr>

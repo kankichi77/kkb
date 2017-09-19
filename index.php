@@ -104,7 +104,6 @@ $( "#InputCategory" ).autocomplete({
   /* Ensure that the KKB_Entry table exists. */
   VerifyTable($connection, "kkb_entry", DB_DATABASE);
 
-  /* If input fields are populated, add a row to the Employees table. */
   $mode = htmlentities($_POST['mode']);
   $item = htmlentities($_POST['Item']);
   $amount = htmlentities($_POST['Amount']);
@@ -268,7 +267,7 @@ while($query_data = mysqli_fetch_row($result)) {
   if ($query_data[0] == "") $x = "(BLANK)";
     else $x = $query_data[0];
   echo "<tr>";
-  echo "<th scope=\"row\"><a href=\"view?group=", $x, "\">", $x, "</a></th>",
+  echo "<th scope=\"row\"><a href=\"view.php?k=", $x, "\">", $x, "</a></th>",
        "<td>", number_format($query_data[1]), "</td>",
        "</tr>";
 }
