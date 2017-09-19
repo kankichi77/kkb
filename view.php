@@ -28,7 +28,7 @@ $groupName_key = htmlentities($_GET['k']);
 
 if ($mode == "s") {
   $mode = "search";
-  $msg = "Search for Group = ¥"{$groupName_key}¥"";
+  $msg = "Search for Group = \"{$groupName_key}\"";
 } else {
   $mode = "";
   $msg = "";
