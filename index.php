@@ -246,7 +246,6 @@ $( "#InputCategory" ).autocomplete({
 <table class="table table-striped">
   <thead>
   <tr>
-    <th>#</th>
     <th>Group</th>
     <th>Amount</th>
   </tr>
