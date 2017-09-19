@@ -118,7 +118,7 @@ while($query_data = mysqli_fetch_row($result)) {
 }
 ?>
 </tbody>
-</table>
+</table><?=$query?>
 </p>
 
 <!-- Clean up. -->
