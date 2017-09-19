@@ -267,7 +267,7 @@ while($query_data = mysqli_fetch_row($result)) {
   if ($query_data[0] == "") $x = "(BLANK)";
     else $x = $query_data[0];
   echo "<tr>";
-  echo "<th scope=\"row\"><a href=\"view.php?k=", $x, "\">", $x, "</a></th>",
+  echo "<th scope=\"row\"><a href=\"view.php?m=s&k=", $query_data[0], "\">", $x, "</a></th>",
        "<td>", number_format($query_data[1]), "</td>",
        "</tr>";
 }

@@ -19,9 +19,20 @@ if ($_GET['m'] == 'lo') {
 }
 
 // Init
+$mode = "";
 $groupName_key = "";
+$msg = "";
 
+$mode = htmlentities($_GET['m']);
 $groupName_key = htmlentities($_GET['k']);
+
+if ($mode == "s") {
+  $mode = "search";
+  $msg = "Search for Group = ¥"{$groupName_key}¥"";
+} else {
+  $mode = "";
+  $msg = "";
+}
 ?>
 <!DOCTYPE html>
 <html lang="jp">
@@ -55,7 +66,7 @@ ID: <?=$e->id?>
 
 <!-- Display table data. -->
 <p>
-  Search for Group = "<?=$groupName_key?>"
+  <?=$msg?>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -80,7 +91,9 @@ $query = "SELECT k.*, u1.username, u2.username, c.groupname FROM kkb_entry k ";
 $query .= "LEFT JOIN categories c ON k.category = c.category ";
 $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
-$query .= "WHERE c.groupname = '". $groupName_key . "' ";
+if ($mode = "search") {
+  $query .= "WHERE c.groupname = '". $groupName_key . "' ";
+}
 $query .= "ORDER BY k.id DESC";
 $result = mysqli_query($connection, $query);
 
