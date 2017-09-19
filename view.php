@@ -93,9 +93,11 @@ $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
 if ($mode == "search") {
   if ($groupName_key == "") {
-    $groupName_key = "NULL";
+    $groupName_key = "NULL ";
+  } else {
+    $groupName_key = "'" . $groupName_key . "' ";
   }
-  $query .= "WHERE c.groupname = '". $groupName_key . "' ";
+  $query .= "WHERE c.groupname = ". $groupName_key;
 }
 $query .= "ORDER BY k.id DESC";
 $result = mysqli_query($connection, $query);
