@@ -163,6 +163,7 @@ Class Category {
 <!-- End Form -->
 <a href="index.php" class="btn btn-outline-secondary" role="button">New Entry</a>
 <a href="view.php" class="btn btn-outline-secondary" role="button">More Entries</a>
+<a href="quickstats.php" class="btn btn-outline-secondary btn-sm" role="button">Stats</a>
 </form>
 
 <!-- Display table data. -->

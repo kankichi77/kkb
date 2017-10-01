@@ -47,6 +47,7 @@ if ($mode == "s") {
   <script src="jquery-ui.min.js"></script>
 </head>
 <body>
+<div class="container">
 <a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB View</h1></a>
 <?php
   /* Connect to MySQL and select the database. */
@@ -59,6 +60,7 @@ if ($mode == "s") {
 ?>
 <a href="index.php" class="btn btn-outline-secondary btn-sm" role="button">Create New</a>
 <a href="categories.php" class="btn btn-outline-secondary btn-sm" role="button">Categories</a>
+<a href="quickstats.php" class="btn btn-outline-secondary btn-sm" role="button">Stats</a>
 <!-- DEBUG -->
 <!--
 ID: <?=$e->id?>
@@ -132,6 +134,7 @@ while($query_data = mysqli_fetch_row($result)) {
 ?>
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>?m=lo">Log out</a>
+</div>
 </body>
 </html>
 
