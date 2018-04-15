@@ -224,6 +224,7 @@ $( "#InputCategory" ).autocomplete({
     <label for="InputDate">Date</label>
     <input type="date" class="form-control" id="InputDate" placeholder="YYYY-MM-DD" name="Date" value="<?=$e->date?>" >
   </div>
+  <p>
   <?php
   if ($mode == "i") { ?>
     <button type="submit" class="btn btn-primary" name="btn" value="add">Add Data</button>
@@ -234,6 +235,7 @@ $( "#InputCategory" ).autocomplete({
     <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Data</button>
   <?php
   } ?>
+  </p>
 <!-- End Form -->
 <a href="view.php" class="btn btn-outline-secondary" role="button">More Entries</a>
 <a href="categories.php" class="btn btn-outline-secondary" role="button">Categories</a>
