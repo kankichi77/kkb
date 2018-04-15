@@ -87,7 +87,8 @@ $( "#InputCategory" ).autocomplete({
 			'Tamiya', 'Team Associated',
 			'Team Durango', 'Traxxas', 'Yokomo'
 		]
-	}
+	})
+  }
 );
 </script>
 </head>
