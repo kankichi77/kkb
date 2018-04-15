@@ -67,7 +67,106 @@ Class Entry {
     $op = $o;
   }
 }
+  /* Connect to MySQL and select the database. */
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+  if (mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  $database = mysqli_select_db($connection, DB_DATABASE);
+
+  /* Ensure that the KKB_Entry table exists. */
+  VerifyTable($connection, "kkb_entry", DB_DATABASE);
+
+    $mode = htmlentities($_POST['mode']);
+    $item = htmlentities($_POST['Item']);
+    $amount = htmlentities($_POST['Amount']);
+    $date = htmlentities($_POST['Date']);
+    $id = htmlentities($_POST['id']);
+    $btn = htmlentities($_POST['btn']);
+    $category = htmlentities($_POST['Category']);
+    $method = htmlentities($_POST['Method']);
+    $op = htmlentities($_POST['OtherParty']);
+
+    $e = new Entry();
+    //$e->init();
+    $e->id = "";
+    $e->item = "";
+    $e->amount = "";
+    $e->date = date('Y-m-d');
+    $e->category = "";
+    $e->method = "";
+    $e->op = "";
+
+    if (strlen($mode) < 1) {
+      $mode = htmlentities($_GET['m']);
+      if (strlen($mode) < 1) {
+        $mode = 'i';
+      }
+    }
+    if (strlen($id) < 1) {
+      $id = htmlentities($_GET['id']);
+      if (strlen($id) < 1) {
+        $id = "";
+      }
+    }
+
+    if ($mode == "i") {
+      if ( strlen($item) && strlen($amount)) {
+        $e->id = $id;
+        $e->item = $item;
+        $e->amount = $amount;
+        $e->date = $date;
+        $e->category = $category;
+        $e->method = $method;
+        $e->op = $op;
+
+        AddEntry($connection, $e);
+        //$e->init();
+        $e->id = "";
+        $e->item = "";
+        $e->amount = "";
+        $e->date = date('Y-m-d');
+        $e->category = "";
+        $e->method = "";
+        $e->op = "";
+      }
+    }
+    if ($mode == "u" && $btn == "upd") {
+        //$e->set($id, $item, $amount, $date);
+        $e->id = $id;
+        $e->item = $item;
+        $e->amount = $amount;
+        $e->date = $date;
+        $e->category = $category;
+        $e->method = $method;
+        $e->op = $op;
+
+        UpdateEntry($connection, $e);
+        //$e->init();
+        $e->id = "";
+        $e->item = "";
+        $e->amount = "";
+        $e->date = date('Y-m-d');
+        $e->category = "";
+        $e->method = "";
+        $e->op = "";
+        $mode = "i";
+    }
+    if ($mode == "u" && $btn == "del") {
+      DeleteEntry($connection, $id);
+      $mode = "i";
+    }
+    if ($mode == "s" && strlen($id)) {
+      $e = getEntry($connection, $id);
+      $mode = "u";
+    }
 ?>
+
+  <!-- DEBUG -->
+  <!--
+  <?=$d_today->format('Y-m-d')?><BR>
+  <?=$d_month_start->format('Y-m-d')?><BR>
+  <?=$d_month_end->format('Y-m-d')?>
+  -->
+
 <!DOCTYPE html>
 <html lang="jp">
 <head>
@@ -96,105 +195,6 @@ $( "#InputCategory" ).autocomplete({
 <div class="container">
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB</h1></a>
-<?php
-  /* Connect to MySQL and select the database. */
-  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
-  if (mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  $database = mysqli_select_db($connection, DB_DATABASE);
-
-  /* Ensure that the KKB_Entry table exists. */
-  VerifyTable($connection, "kkb_entry", DB_DATABASE);
-
-  $mode = htmlentities($_POST['mode']);
-  $item = htmlentities($_POST['Item']);
-  $amount = htmlentities($_POST['Amount']);
-  $date = htmlentities($_POST['Date']);
-  $id = htmlentities($_POST['id']);
-  $btn = htmlentities($_POST['btn']);
-  $category = htmlentities($_POST['Category']);
-  $method = htmlentities($_POST['Method']);
-  $op = htmlentities($_POST['OtherParty']);
-
-  $e = new Entry();
-  //$e->init();
-  $e->id = "";
-  $e->item = "";
-  $e->amount = "";
-  $e->date = date('Y-m-d');
-  $e->category = "";
-  $e->method = "";
-  $e->op = "";
-
-  if (strlen($mode) < 1) {
-    $mode = htmlentities($_GET['m']);
-    if (strlen($mode) < 1) {
-      $mode = 'i';
-    }
-  }
-  if (strlen($id) < 1) {
-    $id = htmlentities($_GET['id']);
-    if (strlen($id) < 1) {
-      $id = "";
-    }
-  }
-
-  if ($mode == "i") {
-    if ( strlen($item) && strlen($amount)) {
-      $e->id = $id;
-      $e->item = $item;
-      $e->amount = $amount;
-      $e->date = $date;
-      $e->category = $category;
-      $e->method = $method;
-      $e->op = $op;
-
-      AddEntry($connection, $e);
-      //$e->init();
-      $e->id = "";
-      $e->item = "";
-      $e->amount = "";
-      $e->date = date('Y-m-d');
-      $e->category = "";
-      $e->method = "";
-      $e->op = "";
-    }
-  }
-  if ($mode == "u" && $btn == "upd") {
-      //$e->set($id, $item, $amount, $date);
-      $e->id = $id;
-      $e->item = $item;
-      $e->amount = $amount;
-      $e->date = $date;
-      $e->category = $category;
-      $e->method = $method;
-      $e->op = $op;
-
-      UpdateEntry($connection, $e);
-      //$e->init();
-      $e->id = "";
-      $e->item = "";
-      $e->amount = "";
-      $e->date = date('Y-m-d');
-      $e->category = "";
-      $e->method = "";
-      $e->op = "";
-      $mode = "i";
-  }
-  if ($mode == "u" && $btn == "del") {
-    DeleteEntry($connection, $id);
-    $mode = "i";
-  }
-  if ($mode == "s" && strlen($id)) {
-    $e = getEntry($connection, $id);
-    $mode = "u";
-  }
-?>
-<!-- DEBUG -->
-<!--
-<?=$d_today->format('Y-m-d')?><BR>
-<?=$d_month_start->format('Y-m-d')?><BR>
-<?=$d_month_end->format('Y-m-d')?>
--->
 
 <!-- Input form -->
 <form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
