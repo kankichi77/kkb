@@ -183,24 +183,37 @@ Class Entry {
   $(document).ready( function() {
   $( "#InputCategory" ).autocomplete({
   		source: [''
-
   <?php
   $query = "SELECT category, count(category) AS c FROM kkb_entry ";
   $query .= "GROUP BY category ";
   $query .= "ORDER BY c DESC ";
   $query .= "LIMIT 100 ";
-
   $result = mysqli_query($connection, $query);
-
   while($query_data = mysqli_fetch_row($result)) {
     echo ",'", $query_data[0], "'";
   }
   ?>
-
-			,'Test1', 'Test2'
 		]
 	})
   }
+);
+
+$(document).ready( function() {
+$( "#InputItem" ).autocomplete({
+    source: [''
+<?php
+$query = "SELECT item, count(item) AS c FROM kkb_entry ";
+$query .= "GROUP BY item ";
+$query .= "ORDER BY c DESC ";
+$query .= "LIMIT 100 ";
+$result = mysqli_query($connection, $query);
+while($query_data = mysqli_fetch_row($result)) {
+  echo ",'", $query_data[0], "'";
+}
+?>
+  ]
+})
+}
 );
 </script>
 </head>
