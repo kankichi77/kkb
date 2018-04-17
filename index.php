@@ -186,7 +186,7 @@ Class Entry {
 
   <?php
   $query = "SELECT category, count(category) AS c FROM kkb_entry ";
-  $query .= "GROUP BY category "
+  $query .= "GROUP BY category ";
   $query .= "ORDER BY c DESC ";
   $query .= "LIMIT 100 ";
 
