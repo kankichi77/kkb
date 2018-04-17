@@ -185,9 +185,10 @@ Class Entry {
   		source: [''
 
   <?php
-  $query = "SELECT category, count(category) c FROM kkb_entry ";
+  $query = "SELECT category, count(category) AS c FROM kkb_entry ";
+  $query .= "GROUP BY category "
   $query .= "ORDER BY c DESC ";
-  $query .= "LIMIT 20 ";
+  $query .= "LIMIT 100 ";
 
   $result = mysqli_query($connection, $query);
 
