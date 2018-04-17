@@ -179,12 +179,34 @@ Class Entry {
   <link rel="stylesheet" href="jquery-ui.min.css">
   <script src="jquery-ui.min.js"></script>
   <script type="text/javascript">
+
+
+  <?php
+  $query = "SELECT groupname, sum(amount) total FROM kkb_entry ";
+  $query .= "LEFT JOIN categories ON kkb_entry.category = categories.category ";
+  $query .= "WHERE kkb_entry.date > '";
+  $query .= $d_month_start->format('Y-m-d');
+  $query .= "' AND kkb_entry.date < '";
+  $query .= $d_month_end->format('Y-m-d');
+  $query .= "' GROUP BY categories.groupname ORDER BY total DESC";
+
+  $result = mysqli_query($connection, $query);
+  $total = 0;
+
+  while($query_data = mysqli_fetch_row($result)) {
+    $total += $query_data[1];
+    if ($query_data[0] == "") $x = "(BLANK)";
+      else $x = $query_data[0];
+    //echo "<th scope=\"row\"><a href=\"view.php?m=s&k=", $query_data[0], "\">", $x;
+  }
+  ?>
+
+
 $(document).ready( function() {
 $( "#InputCategory" ).autocomplete({
 		source: [
-			'HPI', 'Kyosho', 'Losi',
-			'Tamiya', 'Team Associated',
-			'Team Durango', 'Traxxas', 'Yokomo'
+			'外食', '食費',
+			'Test1', 'Test2'
 		]
 	})
   }
