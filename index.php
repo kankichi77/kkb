@@ -186,7 +186,7 @@ Class Entry {
 
   <?php
   $query = "SELECT category, count(category) c FROM kkb_entry ";
-  $query .= "LIMIT 20 "
+  $query .= "LIMIT 20 ";
   $query .= "ORDER BY c DESC";
 
   $result = mysqli_query($connection, $query);
