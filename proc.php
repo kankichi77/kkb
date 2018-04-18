@@ -62,6 +62,8 @@ function AddEntry($connection, $e) {
 
    if(!mysqli_query($connection, $query)) echo("<p>Error adding entry data.</p>");
    //echo $query;
+   $last_id = mysql_insert_id();
+   return $last_id;
 }
 
 /* Check whether the table exists and, if not, create it. */

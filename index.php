@@ -118,8 +118,8 @@ Class Entry {
         $e->method = $method;
         $e->op = $op;
 
-        AddEntry($connection, $e);
-        //$e->init();
+        $last_id = AddEntry($connection, $e);
+
         $e->id = "";
         $e->item = "";
         $e->amount = "";
@@ -222,6 +222,13 @@ while($query_data = mysqli_fetch_row($result)) {
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB</h1></a>
 
+<?php
+if ($mode == "i") {
+?>
+  <div class="ActionMessage">Data saved: ID = <a href="view.php?id=<?=$last_id?>"><?=$last_id?></a></div>
+<?php
+}
+?>
 <!-- Input form -->
 <form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
   <input type="hidden" name="mode" value="<?=$mode?>">
