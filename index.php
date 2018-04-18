@@ -2,6 +2,7 @@
 // INCLUDE FILES
 include "../../inc/kkb_dbinfo.inc";  // DB SETTINGS
 include "proc.php";  // Processing functions
+include "entry.php";
 
 session_start();
 
@@ -25,6 +26,7 @@ $item = "";
 $amount = "";
 $date = "";
 $mode = "";
+$next_mode = "";
 $category = "";
 $method = "";
 $op = "";
@@ -38,35 +40,6 @@ try {
     exit(1);
 }
 
-Class Entry {
-  public $id = "";
-  public $item = "";
-  public $amount = "";
-  public $date = "";
-  public $category = "";
-  public $method = "";
-  public $op = "";
-
-  public function init() {
-    $id = "";
-    $item = "";
-    $amount = "";
-    $date = "";
-    $category = "";
-    $method = "";
-    $op = "";
-  }
-
-  public function set($i, $t, $a, $d, $c, $m, $o) {
-    $id = $i;
-    $item = $t;
-    $amount = $a;
-    $date = $d;
-    $category = $c;
-    $method = $m;
-    $op = $o;
-  }
-}
   /* Connect to MySQL and select the database. */
   $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
   if (mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -98,7 +71,8 @@ Class Entry {
     if (strlen($mode) < 1) {
       $mode = htmlentities($_GET['m']);
       if (strlen($mode) < 1) {
-        $mode = 'i';
+        $mode = 'start';
+        $next_mode = 'i';
       }
     }
     if (strlen($id) < 1) {
@@ -127,6 +101,8 @@ Class Entry {
         $e->category = "";
         $e->method = "";
         $e->op = "";
+        $mode = "after_upsert";
+        $next_mode = "i";
       }
     }
     if ($mode == "u" && $btn == "upd") {
@@ -148,15 +124,18 @@ Class Entry {
         $e->category = "";
         $e->method = "";
         $e->op = "";
-        $mode = "i";
+        $mode = "after_upsert";
+        $next_mode = "i";
     }
     if ($mode == "u" && $btn == "del") {
       DeleteEntry($connection, $id);
-      $mode = "i";
+      $mode = "after_del";
+      $next_mode = "i";
     }
     if ($mode == "s" && strlen($id)) {
       $e = getEntry($connection, $id);
       $mode = "u";
+      $next_mode = "u";
     }
 ?>
 
@@ -223,7 +202,7 @@ while($query_data = mysqli_fetch_row($result)) {
 <a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB</h1></a>
 
 <?php
-if ($mode == "i") {
+if ($mode == "after_upsert") {
 ?>
   <div class="ActionMessage">Data saved: ID = <a href="view.php?id=<?=$last_id?>"><?=$last_id?></a></div>
 <?php
@@ -231,7 +210,7 @@ if ($mode == "i") {
 ?>
 <!-- Input form -->
 <form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
-  <input type="hidden" name="mode" value="<?=$mode?>">
+  <input type="hidden" name="mode" value="<?=$next_mode?>">
   <input type="hidden" name="id" value="<?=$id?>">
   <input type="hidden" name="uid" value="<?=$_SESSION['uid']?>">
   <div class="form-group">
@@ -260,11 +239,11 @@ if ($mode == "i") {
   </div>
   <p>
   <?php
-  if ($mode == "i") { ?>
+  if ($next_mode == "i") { ?>
     <button type="submit" class="btn btn-primary" name="btn" value="add">Add Data</button>
   <?php
   }
-  if ($mode == "u") { ?>
+  if ($next_mode == "u") { ?>
     <button type="submit" class="btn btn-primary" name="btn" value="upd">Update Data</button>
     <button type="submit" class="btn btn-primary" name="btn" value="del">Delete Data</button>
   <?php
