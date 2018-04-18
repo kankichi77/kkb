@@ -13,3 +13,12 @@
 .ActionMessage a:link {
   color: #FF0000;
 }
+.ActionMessage a:visited {
+  color: #FF0000;
+}
+.ActionMessage a:hover {
+  color: #FF0000;
+}
+.ActionMessage a:active {
+  color: #FF0000;
+}
