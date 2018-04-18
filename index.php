@@ -84,7 +84,7 @@ try {
 
     if ($mode == "i") {
       if ( strlen($item) && strlen($amount)) {
-        $e->id = $id;
+        //$e->id = $id;
         $e->item = $item;
         $e->amount = $amount;
         $e->date = $date;
@@ -92,7 +92,7 @@ try {
         $e->method = $method;
         $e->op = $op;
 
-        $last_id = AddEntry($connection, $e);
+        $id = AddEntry($connection, $e);
 
         $e->id = "";
         $e->item = "";
@@ -204,7 +204,7 @@ while($query_data = mysqli_fetch_row($result)) {
 <?php
 if ($mode == "after_upsert") {
 ?>
-  <div class="ActionMessage">Data saved: ID = <a href="view.php?id=<?=$last_id?>"><?=$last_id?></a></div>
+  <div class="ActionMessage">Data saved: ID = <a href="view.php?id=<?=$id?>"><?=$id?></a></div>
 <?php
 }
 ?>
