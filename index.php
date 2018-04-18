@@ -203,13 +203,14 @@ while($query_data = mysqli_fetch_row($result)) {
 
 <a href="<?=$_SERVER['SCRIPT_NAME']?>"><h1>KKB</h1></a>
 
-<?php
-if ($mode == "after_upsert") {
-?>
+<?php if ($mode == "after_upsert") { ?>
   <div class="ActionMessage">Data saved: ID = <a href="view.php?id=<?=$id?>"><?=$id?></a></div>
-<?php
-}
-?>
+<?php } ?>
+
+<?php if ($mode == "after_del") { ?>
+  <div class="ActionMessage">Data deleted</div>
+<?php } ?>
+
 <!-- Input form -->
 <form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
   <input type="hidden" name="mode" value="<?=$next_mode?>">
