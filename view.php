@@ -22,9 +22,11 @@ if ($_GET['m'] == 'lo') {
 $mode = "";
 $groupName_key = "";
 $msg = "";
+$id = "";
 
 $mode = htmlentities($_GET['m']);
 $groupName_key = htmlentities($_GET['k']);
+$id = htmlentities($_GET['id']);
 
 if ($mode == "s") {
   $mode = "search";
@@ -93,15 +95,18 @@ $query = "SELECT k.*, u1.username, u2.username, c.groupname FROM kkb_entry k ";
 $query .= "LEFT JOIN categories c ON k.category = c.category ";
 $query .= "LEFT JOIN users u1 ON k.created_by = u1.id ";
 $query .= "LEFT JOIN users u2 ON k.lastUpdated_by = u2.id ";
+
 if ($mode == "search") {
   if ($groupName_key == "") {
     $groupName_key = "is NULL ";
   } else {
     $groupName_key = "= '" . $groupName_key . "' ";
   }
-  $query .= "WHERE c.groupname ". $groupName_key;
+  $query .= "WHERE c.groupname " . $groupName_key;
+} elseif ($id != "") {
+  $query .= "WHERE k.id = " . $id;
 }
-$query .= "ORDER BY k.id DESC";
+$query .= " ORDER BY k.id DESC";
 $result = mysqli_query($connection, $query);
 
 while($query_data = mysqli_fetch_row($result)) {
