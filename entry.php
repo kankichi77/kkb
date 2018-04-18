@@ -1,3 +1,4 @@
+<?php
 Class Entry {
   public $id = "";
   public $item = "";
@@ -27,3 +28,4 @@ Class Entry {
     $op = $o;
   }
 }
+?>
