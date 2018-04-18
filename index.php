@@ -157,6 +157,8 @@ try {
   <script src="jquery-3.2.1.js"></script>
   <link rel="stylesheet" href="jquery-ui.min.css">
   <script src="jquery-ui.min.js"></script>
+
+  <link rel="stylesheet" href="kkb.css">
   <script type="text/javascript">
 
   $(document).ready( function() {
