@@ -8,5 +8,8 @@
 
 .ActionMessage {
   color: #FF0000;
+}
 
+.ActionMessage a:link {
+  color: #FF0000;
 }
